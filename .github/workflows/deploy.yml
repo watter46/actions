@@ -25,6 +25,11 @@ jobs:
 
           echo "Changed files: $(git diff --name-only HEAD)"
 
+          files=(`git diff HEAD^ --name-only|tr '\n' ' ' `)
+          for file in ${files[@]}; do
+            echo ${file}
+          done
+          
           DEPLOY_NGINX=false
           DEPLOY_PHP=false
           DEPLOY_MYSQL=false

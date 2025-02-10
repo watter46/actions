@@ -138,3 +138,10 @@ update-job-games:
 	docker compose exec app php artisan db:update-job-games
 fresh-spec:
 	docker compose exec app php artisan db:refresh-specific-tables
+
+# GitHubActions
+act:
+	echo 更新\ >> infra/docker/nginx/nginx1.conf
+	git add infra/docker/nginx/nginx1.conf
+	git ci -m 'nginx更新'
+	git push origin main

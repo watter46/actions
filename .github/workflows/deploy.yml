@@ -40,6 +40,11 @@ jobs:
             fi
           done
 
+          echo "Nginx deployment flag: $DEPLOY_NGINX"
+          echo "PHP deployment flag: $DEPLOY_PHP"
+          echo "MySQL deployment flag: $DEPLOY_MYSQL"
+          echo "Deploy all flag: $DEPLOY_ALL"
+
           echo "DEPLOY_NGINX=$DEPLOY_NGINX" >> $GITHUB_ENV
           echo "DEPLOY_PHP=$DEPLOY_PHP" >> $GITHUB_ENV
           echo "DEPLOY_MYSQL=$DEPLOY_MYSQL" >> $GITHUB_ENV

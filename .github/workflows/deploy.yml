@@ -25,7 +25,7 @@ jobs:
 
           echo "Changed files: $(git diff --name-only HEAD)"
 
-          files=(`git diff HEAD^ --name-only|tr '\n' ' ' `)
+          files=(`git diff --name-only HEAD|tr '\n' ' ' `)
           for file in ${files[@]}; do
             echo ${file}
           done

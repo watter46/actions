@@ -17,11 +17,13 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Determine Changed Services
         id: changes
         run: |
-          CHANGED_FILES=$(git diff --name-only HEAD^)
+          CHANGED_FILES=$(git diff --name-only HEAD~1)
 
           DEPLOY_NGINX=false
           DEPLOY_PHP=false

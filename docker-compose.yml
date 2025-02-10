@@ -1,0 +1,74 @@
+volumes:
+  db-store:
+
+services:
+  web:
+    container_name: ${APP_NAME}-web
+    build: 
+      context: .
+      dockerfile: ./infra/docker/nginx/Dockerfile
+      args:
+        - USER_ID=${USER_ID}
+        - USER_NAME=${USER_NAME}
+        - GROUP_ID=${GROUP_ID}
+        - GROUP_NAME=${GROUP_NAME}
+    ports:
+      - target: 80
+        published: ${WEB_PORT}
+        protocol: tcp
+        mode: host
+    volumes:
+      - type: bind
+        source: ./src
+        target: /var/www/src
+
+  app:
+    container_name: ${APP_NAME}-app
+    ports:
+      - 5173:5173
+    build:
+      context: .
+      dockerfile: ./infra/docker/php/Dockerfile
+      args:
+        - USER_ID=${USER_ID}
+        - USER_NAME=${USER_NAME}
+        - GROUP_ID=${GROUP_ID}
+        - GROUP_NAME=${GROUP_NAME}
+    volumes:
+      - type: bind
+        source: ./src
+        target: /var/www/src
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  db:
+    container_name: ${APP_NAME}-db
+    build:
+      context: .
+      dockerfile: ./infra/docker/mysql/Dockerfile
+    ports:
+      - target: 3306
+        published: ${DB_PORT:-3306}
+        protocol: tcp
+        mode: host
+    volumes:
+      - type: volume
+        source: db-store
+        target: /var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASS}
+      - MYSQL_ROOT_PASSWORD=${DB_PASS}
+
+  db-testing:
+    container_name: ${APP_NAME}-db-testing
+    build:
+      context: .
+      dockerfile: ./infra/docker/mysql/Dockerfile
+    ports:
+      - 3000:3306
+    environment:
+      - MYSQL_DATABASE=${DB_TEST_NAME}
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_ALLOW_EMPTY_PASSWORD="yes"

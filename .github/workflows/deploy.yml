@@ -23,6 +23,8 @@ jobs:
         run: |
           CHANGED_FILES=$(git diff --name-only HEAD)
 
+          echo "Changed files: $CHANGED_FILES"
+
           DEPLOY_NGINX=false
           DEPLOY_PHP=false
           DEPLOY_MYSQL=false

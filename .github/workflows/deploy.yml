@@ -26,13 +26,6 @@ jobs:
         run: |
           CHANGED_FILES=$(git diff --name-only HEAD)
 
-          echo "Changed files: $(git diff --name-only HEAD)"
-
-          files=(`git diff --name-only HEAD|tr '\n' ' ' `)
-          for file in ${files[@]}; do
-            echo ${file}
-          done
-          
           DEPLOY_NGINX=false
           DEPLOY_PHP=false
           DEPLOY_MYSQL=false
@@ -40,6 +33,7 @@ jobs:
 
           for FILE in $CHANGED_FILES; do
             if [[ "$FILE" =~ ^infra/docker/nginx/ ]]; then
+              echo "NGINX: true!!!!"
               DEPLOY_NGINX=true
             elif [[ "$FILE" =~ ^infra/docker/php/ ]]; then
               DEPLOY_PHP=true

@@ -21,7 +21,7 @@ jobs:
       - name: Determine Changed Services
         id: changes
         run: |
-          CHANGED_FILES=$(git diff --name-only HEAD^ HEAD)
+          CHANGED_FILES=$(git diff --name-only HEAD)
 
           DEPLOY_NGINX=false
           DEPLOY_PHP=false

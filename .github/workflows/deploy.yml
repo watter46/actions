@@ -28,9 +28,9 @@ jobs:
         run: |
           CHANGED_FILES=$(git diff --name-only HEAD~1)
 
-          DEPLOY_NGINX = false
-          DEPLOY_PHP = false
-          DEPLOY_MYSQL = false
+          DEPLOY_NGINX=false
+          DEPLOY_PHP=false
+          DEPLOY_MYSQL=false
 
           for FILE in $CHANGED_FILES; do
             if [[ "$FILE" =~ ^infra/docker/nginx/ ]]; then

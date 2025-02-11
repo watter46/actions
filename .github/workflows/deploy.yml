@@ -55,13 +55,12 @@ jobs:
       - name: Deploy via SSH
         uses: appleboy/ssh-action@master
         with:
-          # host: ${{ secrets.SSH_HOST }}
-          # username: ${{ secrets.SSH_USER }}
-          # key: ${{ secrets.SSH_PRIVATE_KEY }}
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            mkdir actions
             cd actions
-
-            ls -al
 
             # if [[ "$DEPLOY_NGINX" == "true" ]]; then
             #   echo "Updating Nginx..."

@@ -35,6 +35,7 @@ jobs:
           for FILE in $CHANGED_FILES; do
             if [[ "$FILE" =~ ^infra/docker/nginx/ ]]; then
               DEPLOY_NGINX=true
+              echo $DEPLOY_NGINX
             elif [[ "$FILE" =~ ^infra/docker/php/ ]]; then
               DEPLOY_PHP=true
             elif [[ "$FILE" =~ ^infra/docker/mysql/ ]]; then

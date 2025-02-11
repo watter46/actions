@@ -52,37 +52,31 @@ jobs:
           echo "PHP deployment flag: ${{ env.DEPLOY_PHP }}"
           echo "MySQL deployment flag: ${{ env.DEPLOY_MYSQL }}"
 
-      # - name: Deploy via SSH
-      #   uses: appleboy/ssh-action@master
-      #   with:
-      #     host: ${{ secrets.SSH_HOST }}
-      #     username: ${{ secrets.SSH_USER }}
-      #     key: ${{ secrets.SSH_PRIVATE_KEY }}
-      #     script: |
-      #       cd /path/to/your/project
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@master
+        with:
+          # host: ${{ secrets.SSH_HOST }}
+          # username: ${{ secrets.SSH_USER }}
+          # key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd actions
 
-      #       if [[ "$DEPLOY_ALL" == "true" ]]; then
-      #         echo "Updating all containers..."
-      #         rsync -avz --delete infra/docker/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/path/to/your/project/infra/docker/
-      #         docker-compose down
-      #         docker-compose up -d --build
-      #         exit 0
-      #       fi
+            ls -al
 
-      #       if [[ "$DEPLOY_NGINX" == "true" ]]; then
-      #         echo "Updating Nginx..."
-      #         rsync -avz --delete infra/docker/nginx/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/path/to/your/project/infra/docker/nginx/
-      #         docker-compose up -d --build nginx
-      #       fi
+            # if [[ "$DEPLOY_NGINX" == "true" ]]; then
+            #   echo "Updating Nginx..."
+            #   rsync -avz --delete infra/docker/nginx/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/path/to/your/project/infra/docker/nginx/
+            #   docker-compose up -d --build nginx
+            # fi
 
-      #       if [[ "$DEPLOY_PHP" == "true" ]]; then
-      #         echo "Updating PHP..."
-      #         rsync -avz --delete infra/docker/php/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/path/to/your/project/infra/docker/php/
-      #         docker-compose up -d --build php
-      #       fi
+            # if [[ "$DEPLOY_PHP" == "true" ]]; then
+            #   echo "Updating PHP..."
+            #   rsync -avz --delete infra/docker/php/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/path/to/your/project/infra/docker/php/
+            #   docker-compose up -d --build php
+            # fi
 
-      #       if [[ "$DEPLOY_MYSQL" == "true" ]]; then
-      #         echo "Updating MySQL..."
-      #         rsync -avz --delete infra/docker/mysql/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/path/to/your/project/infra/docker/mysql/
-      #         docker-compose up -d --build mysql
-      #       fi
+            # if [[ "$DEPLOY_MYSQL" == "true" ]]; then
+            #   echo "Updating MySQL..."
+            #   rsync -avz --delete infra/docker/mysql/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/path/to/your/project/infra/docker/mysql/
+            #   docker-compose up -d --build mysql
+            # fi

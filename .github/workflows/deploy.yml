@@ -19,6 +19,9 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          sparse-checkout: |
+            infra/
+          sparse-checkout-cone-mode: false
 
       - name: Determine Changed Services
         id: changes
@@ -32,7 +35,6 @@ jobs:
 
           for FILE in $CHANGED_FILES; do
             if [[ "$FILE" =~ ^infra/docker/nginx/ ]]; then
-              echo "NGINX: true!!!!"
               DEPLOY_NGINX=true
             elif [[ "$FILE" =~ ^infra/docker/php/ ]]; then
               DEPLOY_PHP=true
@@ -42,11 +44,6 @@ jobs:
               DEPLOY_ALL=true
             fi
           done
-
-          echo "Nginx deployment flag: $DEPLOY_NGINX"
-          echo "PHP deployment flag: $DEPLOY_PHP"
-          echo "MySQL deployment flag: $DEPLOY_MYSQL"
-          echo "Deploy all flag: $DEPLOY_ALL"
 
           echo "DEPLOY_NGINX=$DEPLOY_NGINX" >> $GITHUB_ENV
           echo "DEPLOY_PHP=$DEPLOY_PHP" >> $GITHUB_ENV

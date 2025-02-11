@@ -145,3 +145,19 @@ act:
 	git add infra/docker/nginx/nginx1.conf
 	git ci -m 'nginx更新'
 	git push origin main
+act2:
+	echo 更新\ >> infra/docker/nginx/nginx1.conf
+	echo 更新\ >> infra/docker/php/php1.conf
+	git add infra/docker/nginx/nginx1.conf
+	git add infra/docker/php/php1.conf
+	git ci -m 'nginx php更新'
+	git push origin main
+act3:
+	echo 更新\ >> infra/docker/nginx/nginx1.conf
+	echo 更新\ >> infra/docker/php/php1.conf
+	echo 更新\ >> infra/docker/mysql/mysql1.conf
+	git add infra/docker/nginx/nginx1.conf
+	git add infra/docker/php/php1.conf
+	git add infra/docker/mysql/mysql1.conf
+	git ci -m 'nginx php mysql更新'
+	git push origin main

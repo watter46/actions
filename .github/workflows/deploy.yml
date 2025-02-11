@@ -14,6 +14,10 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env: 
+      DEPLOY_NGINX: false
+      DEPLOY_PHP: false
+      DEPLOY_MYSQL: false
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -28,34 +32,21 @@ jobs:
         run: |
           CHANGED_FILES=$(git diff --name-only HEAD~1)
 
-          DEPLOY_NGINX=false
-          DEPLOY_PHP=false
-          DEPLOY_MYSQL=false
-          DEPLOY_ALL=false
-
           for FILE in $CHANGED_FILES; do
             if [[ "$FILE" =~ ^infra/docker/nginx/ ]]; then
-              DEPLOY_NGINX=true
+              $DEPLOY_NGINX=true
             elif [[ "$FILE" =~ ^infra/docker/php/ ]]; then
-              DEPLOY_PHP=true
+              $DEPLOY_PHP=true
             elif [[ "$FILE" =~ ^infra/docker/mysql/ ]]; then
-              DEPLOY_MYSQL=true
-            elif [[ "$FILE" == "docker-compose.yml" ]]; then
-              DEPLOY_ALL=true
+              $DEPLOY_MYSQL=true
             fi
           done
 
-          echo "DEPLOY_NGINX=$DEPLOY_NGINX" >> $GITHUB_ENV
-          echo "DEPLOY_PHP=$DEPLOY_PHP" >> $GITHUB_ENV
-          echo "DEPLOY_MYSQL=$DEPLOY_MYSQL" >> $GITHUB_ENV
-          echo "DEPLOY_ALL=$DEPLOY_ALL" >> $GITHUB_ENV
-
       - name: Display container deployment flags
         run: |
-          echo "Nginx deployment flag: ${{ env.DEPLOY_NGINX }}"
-          echo "PHP deployment flag: ${{ env.DEPLOY_PHP }}"
-          echo "MySQL deployment flag: ${{ env.DEPLOY_MYSQL }}"
-          echo "Deploy all flag: ${{ env.DEPLOY_ALL }}"
+          echo "Nginx deployment flag: $DEPLOY_NGINX"
+          echo "PHP deployment flag: $DEPLOY_PHP"
+          echo "MySQL deployment flag: $DEPLOY_MYSQL"
 
       # - name: Deploy via SSH
       #   uses: appleboy/ssh-action@master

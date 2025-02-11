@@ -34,11 +34,11 @@ jobs:
 
           for FILE in $CHANGED_FILES; do
             if [[ "$FILE" =~ ^infra/docker/nginx/ ]]; then
-              $DEPLOY_NGINX=true
+              DEPLOY_NGINX=true
             elif [[ "$FILE" =~ ^infra/docker/php/ ]]; then
-              $DEPLOY_PHP=true
+              DEPLOY_PHP=true
             elif [[ "$FILE" =~ ^infra/docker/mysql/ ]]; then
-              $DEPLOY_MYSQL=true
+              DEPLOY_MYSQL=true
             fi
           done
 

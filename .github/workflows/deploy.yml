@@ -55,7 +55,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             echo "Updating Nginx..."
-            rsync -avz --delete infra/docker/nginx/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/path/to/your/project/infra/docker/nginx/
+            rsync -avz --delete infra/docker/nginx/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/src/actions/infra/docker/nginx/
             docker-compose up -d --build nginx
 
       - name: Deploy PHP
@@ -67,7 +67,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             echo "Updating PHP..."
-            rsync -avz --delete infra/docker/php/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/path/to/your/project/infra/docker/php/
+            rsync -avz --delete infra/docker/php/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/src/actions/infra/docker/php/
             docker-compose up -d --build php
   
       - name: Deploy MySQL
@@ -79,5 +79,5 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             echo "Updating MySQL..."
-            rsync -avz --delete infra/docker/mysql/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/path/to/your/project/infra/docker/mysql/
+            rsync -avz --delete infra/docker/mysql/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/src/actions/infra/docker/mysql/
             docker-compose up -d --build mysql

@@ -48,16 +48,14 @@ jobs:
 
       - name: Deploy Nginx
         if: env.DEPLOY_NGINX == 'true'
-        uses: appleboy/ssh-action@master
+        uses: burnett01/rsync-deployments@7.0.2
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            echo "Updating Nginx..."
-            mkdir -p src/actions
-            cd src/actions
-            pwd
+          switches: -avzr --delete
+          path: infra/docker/nginx
+          remote_path: /src/actions/infra/docker/
+          remote_host: ${{ secrets.SSH_HOST }}
+          remote_user: ${{ secrets.SSH_USER }}
+          remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       # - name: Deploy Nginx
       #   if: env.DEPLOY_NGINX == 'true'

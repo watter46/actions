@@ -63,6 +63,7 @@ jobs:
             whoami
             hostname
             uptime
+          options: "-o StrictHostKeyChecking=no"
       
       # - name: Deploy via SSH
       #   uses: appleboy/ssh-action@master

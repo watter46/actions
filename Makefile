@@ -161,3 +161,7 @@ act3:
 	git add infra/docker/mysql/mysql1.conf
 	git ci -m 'nginx php mysql更新'
 	git push origin main
+push:
+	git add .github/workflows/deploy.yml
+	git ci -m 'yml'
+	git push origin main

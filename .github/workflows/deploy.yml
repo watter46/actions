@@ -46,35 +46,38 @@ jobs:
           echo "DEPLOY_PHP=$DEPLOY_PHP" >> $GITHUB_ENV
           echo "DEPLOY_MYSQL=$DEPLOY_MYSQL" >> $GITHUB_ENV
 
-      - name: Display container deployment flags
-        run: |
-          echo "Nginx deployment flag: ${{ env.DEPLOY_NGINX }}"
-          echo "PHP deployment flag: ${{ env.DEPLOY_PHP }}"
-          echo "MySQL deployment flag: ${{ env.DEPLOY_MYSQL }}"
-
-      - name: Deploy via SSH
+      - name: Deploy Nginx
+        if: env.DEPLOY_NGINX == 'true'
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd actions
+            echo "Updating Nginx..."
+            rsync -avz --delete infra/docker/nginx/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/path/to/your/project/infra/docker/nginx/
+            docker-compose up -d --build nginx
 
-            if [[ "$DEPLOY_NGINX" == "true" ]]; then
-              echo "Updating Nginx..."
-              rsync -avz --delete infra/docker/nginx/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/path/to/your/project/infra/docker/nginx/
-              docker-compose up -d --build nginx
-            fi
-
-            if [[ "$DEPLOY_PHP" == "true" ]]; then
-              echo "Updating PHP..."
-              rsync -avz --delete infra/docker/php/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/path/to/your/project/infra/docker/php/
-              docker-compose up -d --build php
-            fi
-
-            if [[ "$DEPLOY_MYSQL" == "true" ]]; then
-              echo "Updating MySQL..."
-              rsync -avz --delete infra/docker/mysql/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/path/to/your/project/infra/docker/mysql/
-              docker-compose up -d --build mysql
-            fi
+      - name: Deploy PHP
+        if: env.DEPLOY_PHP == 'true'
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            echo "Updating PHP..."
+            rsync -avz --delete infra/docker/php/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/path/to/your/project/infra/docker/php/
+            docker-compose up -d --build php
+  
+      - name: Deploy MySQL
+        if: env.DEPLOY_MYSQL == 'true'
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            echo "Updating MySQL..."
+            rsync -avz --delete infra/docker/mysql/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/path/to/your/project/infra/docker/mysql/
+            docker-compose up -d --build mysql

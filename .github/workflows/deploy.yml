@@ -56,7 +56,7 @@ jobs:
           script: |
             echo "Updating Nginx..."
             mkdir -p src/actions
-            cd actions
+            cd src/actions
             pwd
 
       # - name: Deploy Nginx

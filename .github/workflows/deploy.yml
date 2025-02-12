@@ -52,7 +52,7 @@ jobs:
         with:
           switches: -avzr --delete
           path: infra/docker/nginx
-          remote_path: src/actions/infra/docker/nginx
+          remote_path: src/actions/infra/docker/
           remote_host: ${{ secrets.SSH_HOST }}
           remote_user: ${{ secrets.SSH_USER }}
           remote_key: ${{ secrets.SSH_PRIVATE_KEY }}

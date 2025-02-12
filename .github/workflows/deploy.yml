@@ -57,38 +57,24 @@ jobs:
           remote_user: ${{ secrets.SSH_USER }}
           remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      # - name: Deploy Nginx
-      #   if: env.DEPLOY_NGINX == 'true'
-      #   uses: appleboy/ssh-action@master
-      #   with:
-      #     host: ${{ secrets.SSH_HOST }}
-      #     username: ${{ secrets.SSH_USER }}
-      #     key: ${{ secrets.SSH_PRIVATE_KEY }}
-      #     script: |
-      #       echo "Updating Nginx..."
-      #       rsync -avz --delete infra/docker/nginx/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/src/actions/infra/docker/nginx/
-      #       docker-compose up -d --build nginx
+      - name: Deploy PHP
+        if: env.DEPLOY_PHP == 'true'
+        uses: burnett01/rsync-deployments@7.0.2
+        with:
+          switches: -avzr --delete
+          path: infra/docker/php
+          remote_path: src/actions/infra/docker/
+          remote_host: ${{ secrets.SSH_HOST }}
+          remote_user: ${{ secrets.SSH_USER }}
+          remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      # - name: Deploy PHP
-      #   if: env.DEPLOY_PHP == 'true'
-      #   uses: appleboy/ssh-action@master
-      #   with:
-      #     host: ${{ secrets.SSH_HOST }}
-      #     username: ${{ secrets.SSH_USER }}
-      #     key: ${{ secrets.SSH_PRIVATE_KEY }}
-      #     script: |
-      #       echo "Updating PHP..."
-      #       rsync -avz --delete infra/docker/php/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/src/actions/infra/docker/php/
-      #       docker-compose up -d --build php
-  
-      # - name: Deploy MySQL
-      #   if: env.DEPLOY_MYSQL == 'true'
-      #   uses: appleboy/ssh-action@master
-      #   with:
-      #     host: ${{ secrets.SSH_HOST }}
-      #     username: ${{ secrets.SSH_USER }}
-      #     key: ${{ secrets.SSH_PRIVATE_KEY }}
-      #     script: |
-      #       echo "Updating MySQL..."
-      #       rsync -avz --delete infra/docker/mysql/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/src/actions/infra/docker/mysql/
-      #       docker-compose up -d --build mysql
+      - name: Deploy MySQL
+        if: env.DEPLOY_MYSQL == 'true'
+        uses: burnett01/rsync-deployments@7.0.2
+        with:
+          switches: -avzr --delete
+          path: infra/docker/mysql
+          remote_path: src/actions/infra/docker/
+          remote_host: ${{ secrets.SSH_HOST }}
+          remote_user: ${{ secrets.SSH_USER }}
+          remote_key: ${{ secrets.SSH_PRIVATE_KEY }}

@@ -55,6 +55,8 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             echo "Updating Nginx..."
+            mkdir -p actions
+            cd actions
             pwd
 
       # - name: Deploy Nginx

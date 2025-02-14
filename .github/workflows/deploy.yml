@@ -1,15 +1,21 @@
 name: Deploy Infrastructure (Docker)
 
 on:
-  push:
-    paths:
-      - "infra/docker/nginx/**"
-      - "infra/docker/php/**"
-      - "infra/docker/mysql/**"
-      - "docker-compose.yml"
-      - ".github/workflows/infra.yml"
-    branches:
-      - main
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Select environment"
+        required: true
+        default: "local"
+        type: choice
+        options:
+          - local
+          - test
+          - production
+      deploy_message:
+        description: "Deployment message"
+        required: false
+        type: string
 
 jobs:
   deploy:
@@ -27,7 +33,7 @@ jobs:
         id: changes
         run: |
           CHANGED_FILES=$(git diff --name-only HEAD~1)
-          echo CHANGED_FILES
+          
           DEPLOY_NGINX=false
           DEPLOY_PHP=false
           DEPLOY_MYSQL=false
